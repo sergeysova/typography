@@ -5,9 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="chrome=1">
 	<title>Web Typography - Home</title>
 	<meta name="Description" content="Home to some of the best typography articles, tools and font combinations from around the web." />
-	<link rel="stylesheet" href="./stylesheets/skeleton.min.css">
-	<link rel="stylesheet" href="./stylesheets/normalize.min.css">
-	<link rel="stylesheet" href="./stylesheets/home.min.css">
+	<link rel="stylesheet" href="./css/skeleton.css">
+	<link rel="stylesheet" href="./css/normalize.css">
+	<link rel="stylesheet" href="./css/home.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<link rel="manifest" href="/manifest.json">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -26,7 +26,7 @@
 		<a href="index.html" class="button">Home</a>
 		<a href="about.html" class="button">About</a>
 		<a href="https://github.com/deanhume/typography" class="button">
-			<img class="github" src="icons/github-icon.svg" />&nbsp;
+			<img class="github" src="./icons/github-icon.svg" />&nbsp;
 		</a>
 	</div>
 	<!-- header -->
@@ -84,25 +84,9 @@
 
 	// Register the service worker
 	if ('serviceWorker' in navigator) {
-		navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
+		navigator.serviceWorker.register('./sw.js').then(function(registration) {
 			// Registration was successful
 			console.log('ServiceWorker registration successful with scope: ', registration.scope);
-				registration.pushManager.subscribe({userVisibleOnly: true}).then(function(subscription){
-				isPushEnabled = true;
-				console.log("subscription.subscriptionId: ", subscription.subscriptionId);
-				console.log("subscription.endpoint: ", subscription.endpoint);
-
-				// Save the subscription Id - Fetch API FTW!
-				var url = 'https://deanhume.azurewebsites.net/push/SaveSubscription?subscriptionId=' + subscription.subscriptionId;
-				fetch(url, {
-					method: 'get',
-					mode: 'no-cors'
-				}).then(function(response) {
-					console.log('Subscription saved successfully: ', response.text());
-				}).catch(function(err) {
-					console.log('There was an issue saving the subscription details: ', err);
-				});
-			});
 		}).catch(function(err) {
 			// registration failed :(
 				console.log('ServiceWorker registration failed: ', err);
