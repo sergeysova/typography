@@ -116,25 +116,13 @@ const workboxSW = new self.WorkboxSW();
 workboxSW.precache(fileManifest);
 
 // The route for any requests from the googleapis origin
-workboxSW.router.registerRoute('/(.*)',
+workboxSW.router.registerRoute('https://fonts.googleapis.com/(.*)',
   workboxSW.strategies.cacheFirst({
     cacheName: 'googleapis',
     cacheableResponse: {
       statuses: [0, 200]
     },
-    origin: /\.googleapis\.com$/,
     networkTimeoutSeconds: 4
   })
 );
 
-// The route for any requests from the gstatic origin
-workboxSW.router.registerRoute('/(.*)',
-  workboxSW.strategies.cacheFirst({
-    cacheName: 'googleapis',
-    cacheableResponse: {
-      statuses: [0, 200]
-    },
-    origin: /\.gstatic\.com$/,
-    networkTimeoutSeconds: 4
-  })
-);
