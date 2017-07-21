@@ -2,7 +2,17 @@
   'use strict';
 
   // Load the sw-toolbox library.
-  importScripts('./bower_components/sw-toolbox/sw-toolbox.js');
+  importScripts('./js/workbox-sw.prod.v1.1.0.js');
+
+  const workboxSW = new WorkboxSW({ clientsClaim: true });
+
+  workboxSW.precache([
+    { url: '/typography/stylesheets/about.min.css' },
+    { url: '/typography/stylesheets/articles.min.css' },
+    { url: '/typography/stylesheets/about.min.css' },
+    { url: '/typography/stylesheets/about.min.css' },
+
+]);
 
   // Turn on debug logging, visible in the Developer Tools' console.
   global.toolbox.options.debug = true;
@@ -47,7 +57,7 @@
 
 
 // The handler for push events
-self.addEventListener('push', function(event) {
+self.addEventListener('push', function (event) {
   console.log('Received a push message', event);
 
   var title = 'Notification';
@@ -57,15 +67,15 @@ self.addEventListener('push', function(event) {
 
   event.waitUntil(
     self.registration.showNotification(title, {
-       body: body,
-       icon: icon,
-       tag: tag
-     })
-   );
+      body: body,
+      icon: icon,
+      tag: tag
+    })
+  );
 });
 
 // The click handler for notifications
-self.addEventListener('notificationclick', function(event) {
+self.addEventListener('notificationclick', function (event) {
   console.log('On notification click: ', event.notification.tag);
   // Android doesn't close the notification when you click on it
   // See: http://crbug.com/463146
@@ -77,15 +87,15 @@ self.addEventListener('notificationclick', function(event) {
     clients.matchAll({
       type: "window"
     })
-    .then(function(clientList) {
-      for (var i = 0; i < clientList.length; i++) {
-        var client = clientList[i];
-        if (client.url == '/' && 'focus' in client)
-          return client.focus();
-      }
-      if (clients.openWindow) {
-        return clients.openWindow('https://deanhume.github.io/typography');
-      }
-    })
+      .then(function (clientList) {
+        for (var i = 0; i < clientList.length; i++) {
+          var client = clientList[i];
+          if (client.url == '/' && 'focus' in client)
+            return client.focus();
+        }
+        if (clients.openWindow) {
+          return clients.openWindow('https://deanhume.github.io/typography');
+        }
+      })
   );
 });
